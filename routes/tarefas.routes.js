@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Tarefa = require("../models/tarefas");
 
+router.get('*', function(req, res){
+    res.status(404).send("Não encontrado");
+});
+
+router.get('*', function(req, res){
+    res.status(201).send("Não encontrado");
+});
+
 router.post("/add", async (req, res) =>{
     await Tarefa.create(req.body)
     .then(() => {
