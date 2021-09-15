@@ -1,22 +1,38 @@
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require('express');
+
+const cors = require('cors');
+
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  optionsSuccessStatus: 200,
+}
+
+const port = 3000;
+
 const app = express();
 app.use(express.json());
 
 const Conn = require('./models/conn/conn');
 
-Conn("localhost", 27017, "tarefas");
+const db_url = process.env.DB_URL;
+const db_user = process.env.DB_USER;
+const db_pass = process.env.DB_PASS;
+const db_data = process.env.DB_DATA;
 
-const port = 3000;
+Conn(db_url, db_user, db_pass, db_data);
 
-const tarefa = require("./routes/tarefas.routes");
-app.use("/tarefas",tarefa);
+const tarefaRouter = require("./routes/tarefas.routes");
+app.use("/tarefas",tarefaRouter);
 
 app.get('*', function(req, res){
   res.status(404).send("Não encontrado");
 });
 
 app.get('*', function(req, res){
-  res.status(201).send("Não encontrado");
+  res.status(201).send("Criado");
 });
 
 app.listen(port, ()=> {

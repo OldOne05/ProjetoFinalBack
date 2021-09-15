@@ -2,14 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Tarefa = require("../models/tarefas");
 
-router.get('*', function(req, res){
-    res.status(404).send("Não encontrado");
-});
-
-router.get('*', function(req, res){
-    res.status(201).send("Não encontrado");
-});
-
 router.post("/add", async (req, res) =>{
     await Tarefa.create(req.body)
     .then(() => {
@@ -20,7 +12,7 @@ router.post("/add", async (req, res) =>{
     })
 });
 
-router.get("/", async (req, res) => {
+router.get("/list", async (req, res) => {
     await Tarefa.find({})
     .then((tarefa) => {
         res.status(200).send(tarefa)
@@ -33,7 +25,7 @@ router.get("/", async (req, res) => {
 router.get("/findById/:id", async (req, res) => {
     await Tarefa.find({_id : req.params.id})
     .then((tarefa) =>{
-        res.status(200).send(musica);
+        res.status(200).send(tarefa);
     }).catch((err) => {
         res.status(400).send("Algo deu errado ao achar a tarefa, tente de novo.");
         console.error(err)
