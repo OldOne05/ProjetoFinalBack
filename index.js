@@ -35,6 +35,7 @@ app.get('*', function(req, res){
   res.status(201).send("Criado");
 });
 
-app.listen(port, ()=> {
+app.listen(process.env.PORT ||
+  port, ()=> {
   console.info(`Servidor rodando na porta http://localhost:${port}/`);
 })
